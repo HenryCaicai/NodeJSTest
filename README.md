@@ -89,7 +89,6 @@ POST /object 400 0.550 ms - 45
     ✓ should return false when value is missing
 POST /object 400 0.699 ms - 45
     ✓ should return false when request don't has body
-(node:75349) DeprecationWarning: Mongoose: mpromise (mongoose's default promise library) is deprecated, plug in your own promise library instead: http://mongoosejs.com/docs/promises.html
 GET /object/mykey 200 26.780 ms - 31
     ✓ should return ture when query is "mykey"
 GET /object/mykey1 400 4.498 ms - 23
