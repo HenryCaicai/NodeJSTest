@@ -6,15 +6,17 @@ var ObjectItem = require('../api/object');
 var url = require('url');
 
 router.post('/', function(req, res, next) {
-		if (req.body) {
-			var object = {
-				key: req.body.key,
-				value: req.body.value
-			}
-			var data = new ObjectItem(object);
-			data.save();
-			res.status(200).send({ status: 'success insert' });
-		} 
+	if (req.body && req.body.key && typeof(req.body.key)==='string' && req.body.value ) {
+		var object = {
+			key: req.body.key,
+			value: req.body.value
+		}
+		var data = new ObjectItem(object);
+		data.save();
+		res.status(200).send({ status: 'success insert' });
+	} else {
+		res.status(400).send({ 'Error': 'request incompleted or type error' });
+	}
 
 });
 
@@ -53,10 +55,10 @@ router.get('/:key', function(req, res, next) {
 				if (err) {
 					res.status(400).send({ 'Error': err });
 				}
-		  		if (obj.key) {
+		  		if (obj&&obj.key) {
 		  			res.status(200).send({'value': obj.value});
 		  		} else {
-		  			res.status(400).send({'response': 'no such key'});
+		  			res.status(400).send({'Error': 'no such key'});
 		  		}
 
 			})

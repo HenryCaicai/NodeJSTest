@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 
 var ObjectItemSchema = new mongoose.Schema({
     key: String,
-    value: String,
+    value: Object,
     createTime: {
         type: Date,
         default: Date.now
