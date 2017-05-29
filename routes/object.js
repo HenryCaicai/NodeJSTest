@@ -42,7 +42,7 @@ router.get('/:key', function(req, res, next) {
 	  		if (obj[0]) {
 	  			var sendObj = [];
 	  			for (var i=0; i<obj.length; i++) {
-	  				var item = { 'value': obj[i].value}
+	  				var item = {'key':obj[i].key, 'value': obj[i].value, 'time stamp':obj[i].createTime.getTime()/1000}
 	  				sendObj.push(item);
 	  			}
 	  			res.status(200).send(sendObj);
@@ -59,7 +59,7 @@ router.get('/:key', function(req, res, next) {
 					res.status(400).send({ 'Error': err });
 				}
 		  		if (obj&&obj.key) {
-		  			res.status(200).send({'value': obj.value});
+		  			res.status(200).send({'key':obj.key, 'value': obj.value, 'time stamp':obj.createTime.getTime()/1000});
 		  		} else {
 		  			res.status(400).send({'Error': 'no such key'});
 		  		}
