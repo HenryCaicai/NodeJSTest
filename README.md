@@ -8,18 +8,20 @@ This project uses some libs below with following code examples:
 
 1. 'express' on get/post request handler.
   ```
-router.post('/', function(req, res, next) {
-	if (req.body && req.body.key && typeof(req.body.key)==='string' && req.body.value ) {
-		var object = {
-			key: req.body.key,
-			value: req.body.value
-		}
-		var data = new ObjectItem(object);
-		data.save();
-		res.status(200).send({ status: 'success insert' });
-	} else {
-		res.status(400).send({ 'Error': 'request incompleted or type error' });
-	}
+  if (req.body && Object.keys(req.body).length !== 0) {
+    console.log(JSON.stringify(req.body));
+    for (var inputKey in req.body) {
+      var object = {
+        key: inputKey,
+        value: req.body[inputKey]
+      }
+      var data = new ObjectItem(object);
+      data.save();
+    }
+    res.status(200).send({ status: 'success insert' });
+  } else {
+    res.status(400).send({ 'Error': 'request incompleted or type error' });
+  }
 
 });
 ```
@@ -73,28 +75,26 @@ it('should return true when key and value are both string type', function(done) 
 
 ## Tests
 
-For testing, open Terminal, go to project directory andy run ```mocha test/object.spec.js```. You will see the out put below in terminal: 
+1. For local testing, open Terminal, go to project directory andy run ```mocha test/object.spec.js```. You will see the out put below in terminal: 
 ```
 
   object sanitize
-POST /object 200 35.715 ms - 27
-    ✓ should return true when key and value are both string type (87ms)
-POST /object 200 3.209 ms - 27
+{"mykey":"value1"}
+POST /object 200 34.941 ms - 27
+    ✓ should return true when key and value are both string type (89ms)
+{"mykey":{"subvalue":"value1"}}
+POST /object 200 4.148 ms - 27
     ✓ should return true when key is a string and value is an object
-POST /object 400 5.240 ms - 45
-    ✓ should return false when key is not a string
-POST /object 400 0.622 ms - 45
-    ✓ should return false when key is missing
-POST /object 400 0.550 ms - 45
-    ✓ should return false when value is missing
-POST /object 400 0.699 ms - 45
+POST /object 400 1.171 ms - 45
     ✓ should return false when request don't has body
-GET /object/mykey 200 26.780 ms - 31
+GET /object/mykey 200 20.837 ms - 73
     ✓ should return ture when query is "mykey"
-GET /object/mykey1 400 4.498 ms - 23
+GET /object/mykey1 400 2.789 ms - 23
     ✓ should return false when query is "mykey1"
 
 
-  8 passing (197ms)
+  5 passing (176ms)
 ```
 It means everything goes well.
+
+2. For public testing, you need to go to [url](http://3d914b49.ngrok.io/)/object/ with get & post functions using some API testing apps like [Postman|Apps](https://www.getpostman.com/apps).
