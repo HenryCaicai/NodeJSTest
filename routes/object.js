@@ -6,13 +6,16 @@ var ObjectItem = require('../api/object');
 var url = require('url');
 
 router.post('/', function(req, res, next) {
-	if (req.body && req.body.key && typeof(req.body.key)==='string' && req.body.value ) {
-		var object = {
-			key: req.body.key,
-			value: req.body.value
+	if (req.body && Object.keys(req.body).length !== 0) {
+		console.log(JSON.stringify(req.body));
+		for (var inputKey in req.body) {
+			var object = {
+				key: inputKey,
+				value: req.body[inputKey]
+			}
+			var data = new ObjectItem(object);
+			data.save();
 		}
-		var data = new ObjectItem(object);
-		data.save();
 		res.status(200).send({ status: 'success insert' });
 	} else {
 		res.status(400).send({ 'Error': 'request incompleted or type error' });
